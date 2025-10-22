@@ -434,10 +434,10 @@ std::shared_ptr<CoreWorker> CoreWorkerProcessImpl::CreateCoreWorker(
         }
         return Status::OK();
       },
-      /* retry_task_callback= */
-      [this](TaskSpecification &spec, bool object_recovery, uint32_t delay_ms) {
+      /* async_retry_task_callback=*/
+      [this](TaskSpecification &spec, uint32_t delay_ms) {
         auto core_worker = GetCoreWorker();
-        core_worker->TaskManagerRetryTask(spec, object_recovery, delay_ms);
+        core_worker->AsyncRetryTask(spec, delay_ms);
       },
       /*queue_generator_resubmit=*/
       [this](const TaskSpecification &spec) {
